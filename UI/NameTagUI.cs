@@ -10,6 +10,7 @@ namespace RenameItems.UI
         public static bool visible;  
         private UIPanel panel;
         private UIElement testButton;
+        private UITextbox testBox;
         public float oldScale;
 
         public override void OnInitialize()
@@ -21,10 +22,13 @@ namespace RenameItems.UI
             panel.Width.Set(100, 0);
             panel.Height.Set(100, 0);
 
-            testButton = new UIElement();
+            /*testButton = new UIElement();
             testButton.Width = StyleDimension.FromPercent(35f);
             testButton.Height = StyleDimension.FromPercent(35f);
-            panel.Append(testButton);
+            panel.Append(testButton);*/
+
+            testBox = new UITextbox();
+            panel.Append(testBox);
 
             Append(panel); //appends the panel to the UIState
         }
