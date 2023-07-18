@@ -1,0 +1,3 @@
+displayName = Name Tags
+author = sirloinsteak_11
+version = 0.1
