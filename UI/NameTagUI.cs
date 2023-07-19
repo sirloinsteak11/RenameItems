@@ -29,7 +29,7 @@ namespace RenameItems.UI
             panel.Append(header);
         }
 
-        public static void SetVisible()
+       /* public static void SetVisible()
         {
             visible = true;
         }
@@ -45,7 +45,7 @@ namespace RenameItems.UI
                 visible = false;
             else
                 visible = true;
-        }
+        } */
 
         public override void Update(GameTime gameTime)
         {

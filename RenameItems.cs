@@ -5,14 +5,13 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using RenameItems.UI;
-
 namespace RenameItems
 {
-	public class RenameItems : ModSystem
-	{
-		internal NameTagUI nametagUI;
-		public UserInterface nametagInterface;
-
+    public class RenameItems: ModSystem
+    {
+        internal NameTagUI nametagUI;
+        public UserInterface nametagInterface;
+        private GameTime lastUpdateUiGameTime;
         public override void Load()
         {
             if (!Main.dedServ)
@@ -23,31 +22,39 @@ namespace RenameItems
                 nametagInterface.SetState(nametagUI);
             }
         }
-
         public override void UpdateUI(GameTime gameTime)
         {
+            lastUpdateUiGameTime = gameTime;
             // it will only draw if the player is not on the main menu
-            if (!Main.gameMenu
-                && NameTagUI.visible)
+            if (MyInterface?.CurrentState != null)
             {
-                nametagInterface?.Update(gameTime);
+                MyInterface.Update(gameTime);
             }
         }
-
-        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        public override void ModifyInterfaceLayers(List < GameInterfaceLayer > layers)
         {
-            layers.Add(new LegacyGameInterfaceLayer("Nametag UI", DrawNametagUI, InterfaceScaleType.UI));
-        }
-
-        private bool DrawNametagUI()
-        {
-            // it will only draw if the player is not on the main menu
-            if (!Main.gameMenu
-                && NameTagUI.visible)
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
             {
-                nametagInterface.Draw(Main.spriteBatch, new GameTime());
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer("RenameItems: NametagInterface", delegate
+                {
+                    if (_lastUpdateUiGameTime != null && nametagInterface?.CurrentState != null)
+                    {
+                        MyInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                    }
+                    return true;
+                }, InterfaceScaleType.UI));
             }
-            return true;
+        }
+        
+        internal void ToggleUI()
+        {
+            if (nametagInterface?.CurrentState == null)
+            {
+                nametagInterface?.SetState(nametagUI);
+            } else {
+                nametagInterface?.SetState(null);
+            }
         }
     }
 }
