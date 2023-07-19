@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using Terraria;
+using Terraria.UI;
 
 namespace RenameItems.UI
 {
-    public class UITextbox : UIElement
+    internal class UITextbox : UIView
     {
         private RasterizerState _rasterizerState = new RasterizerState() { ScissorTestEnable = true };
 		internal static Asset<Texture2D> textboxBackground;
@@ -55,7 +56,6 @@ namespace RenameItems.UI
 		public event KeyPressedHandler KeyPressed;
 
 		private bool drawCarrot = false;
-		private UILabel label = new UILabel();
 		private static int padding = 4;
 
 		public string Text { get; set; } = "";
@@ -69,13 +69,8 @@ namespace RenameItems.UI
 				Text = "";
 				KeyPressed?.Invoke(this, ' ');
 			};
-			label.ForegroundColor = Color.Black;
-			label.Scale = Height / label.Height;
-			label.TextOutline = false;
 			Numeric = false;
 			HasDecimal = false;
-			label.Position = new Vector2(4, 4);
-			this.AddChild(label);
 		}
 
 		private void UITextbox_onLeftClick(object sender, EventArgs e)
@@ -181,9 +176,7 @@ namespace RenameItems.UI
 			pos.X += fillWidth;
 			spriteBatch.Draw(textboxBackground.Value, pos, null, Color.White, 0f, Origin, 1f, SpriteEffects.FlipHorizontally, 0f);
 			string drawString = Text;
-			if (PasswordBox) drawString = passwordString;
 			if (drawCarrot && focused) drawString += "|";
-			label.Text = drawString;
 
 			pos = DrawPosition - Origin;
 
@@ -205,7 +198,6 @@ namespace RenameItems.UI
 				}
 				if (cutRect.X + Width > Main.screenWidth) cutRect.Width = Main.screenWidth - cutRect.X;
 				if (cutRect.Y + Height > Main.screenHeight) cutRect.Height = Main.screenHeight - cutRect.Y;*/
-				cutRect = CheatSheet.GetClippingRectangle(spriteBatch, cutRect);
 				Rectangle currentRect = spriteBatch.GraphicsDevice.ScissorRectangle;
 				spriteBatch.GraphicsDevice.ScissorRectangle = cutRect;
 

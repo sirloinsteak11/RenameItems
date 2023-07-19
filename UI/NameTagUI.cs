@@ -21,6 +21,7 @@ namespace RenameItems.UI
             panel.Top.Set(100, 0); //this is the distance between the top of the screen and the top of the panel
             panel.Width.Set(100, 0);
             panel.Height.Set(100, 0);
+            Append(panel);
 
             /*testButton = new UIElement();
             testButton.Width = StyleDimension.FromPercent(35f);
@@ -28,9 +29,7 @@ namespace RenameItems.UI
             panel.Append(testButton);*/
 
             testBox = new UITextbox();
-            panel.Append(testBox);
-
-            Append(panel); //appends the panel to the UIState
+            panel.Append(testBox); //appends the panel to the UIState
         }
 
         public static void SetVisible()
