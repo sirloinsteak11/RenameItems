@@ -52,7 +52,7 @@ public class NameTag : ModItem
     {
         if (player.altFunctionUse == 2)
         {
-            NameTagUI.SetVisible();
+            NameTagUI.ToggleVisible();
             return true;
         }
         return null;
