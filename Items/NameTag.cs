@@ -52,16 +52,17 @@ public class NameTag : ModItem
     {
         if (player.altFunctionUse == 2)
         {
-            NameTagUI.ToggleVisible();
+            ModContent.GetInstance<RenameItems>().ToggleUI();
+            CustomUITextbox.ToggleFocus();
             return true;
         }
         return null;
     }
 
-    public override void RightClick(Player player)
+   /* public override void RightClick(Player player)
     {
         NameTagUI.SetVisible();
         Rain.MakeRain();
         Item.SetNameOverride("Sex");
-    }
+    } */
 }

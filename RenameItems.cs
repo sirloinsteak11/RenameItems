@@ -12,6 +12,8 @@ namespace RenameItems
 	{
 		internal NameTagUI nametagUI;
 		public UserInterface nametagInterface;
+        private GameTime lastUpdateUiGameTime;
+        private Main Main;
 
         public override void Load()
         {
@@ -20,34 +22,44 @@ namespace RenameItems
                 nametagUI = new NameTagUI();
                 nametagUI.Initialize();
                 nametagInterface = new UserInterface();
-                nametagInterface.SetState(nametagUI);
             }
         }
 
         public override void UpdateUI(GameTime gameTime)
         {
-            // it will only draw if the player is not on the main menu
-            if (!Main.gameMenu
-                && NameTagUI.visible)
+            lastUpdateUiGameTime = gameTime;
+            if (nametagInterface?.CurrentState != null)
             {
-                nametagInterface?.Update(gameTime);
+                nametagInterface.Update(gameTime);
             }
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            layers.Add(new LegacyGameInterfaceLayer("Nametag UI", DrawNametagUI, InterfaceScaleType.UI));
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
+            {
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer("RenameItems: NametagInterface", delegate
+                {
+                    if (lastUpdateUiGameTime != null && nametagInterface?.CurrentState != null)
+                    {
+                        nametagInterface.Draw(Main.spriteBatch, lastUpdateUiGameTime);
+                    }
+                    return true;
+                }, InterfaceScaleType.UI));
+            }
         }
 
-        private bool DrawNametagUI()
+        internal void ToggleUI()
         {
-            // it will only draw if the player is not on the main menu
-            if (!Main.gameMenu
-                && NameTagUI.visible)
+            if (nametagInterface?.CurrentState == null)
             {
-                nametagInterface.Draw(Main.spriteBatch, new GameTime());
+                nametagInterface?.SetState(nametagUI);
             }
-            return true;
+            else
+            {
+                nametagInterface?.SetState(null);
+            }
         }
     }
 }

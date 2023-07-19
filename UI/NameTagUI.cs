@@ -27,9 +27,14 @@ namespace RenameItems.UI
             header.HAlign = 0.5f;  // 1
             header.Top.Set(15, 0); // 2
             panel.Append(header);
+
+            CustomUITextbox textBox = new CustomUITextbox("rename item");
+            textBox.HAlign = 0.5f;  // 1
+            textBox.Top.Set(25, 0); // 2
+            panel.Append(textBox);
         }
 
-        public static void SetVisible()
+       /* public static void SetVisible()
         {
             visible = true;
         }
@@ -45,7 +50,7 @@ namespace RenameItems.UI
                 visible = false;
             else
                 visible = true;
-        }
+        } */
 
         public override void Update(GameTime gameTime)
         {
