@@ -12,7 +12,7 @@ namespace RenameItems.UI
     {
 
         public static bool focused = false;
-        public string Text { get; set; } = "";
+        public static string Text { get; set; } = "";
 
         public int MaxCharacters { get; set; } = 20;
 
@@ -33,14 +33,28 @@ namespace RenameItems.UI
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
                 Main.instance.DrawWindowsIMEPanel(new Vector2(98f, (float)(Main.screenHeight - 36)), 0f);
+                this.SetText(Text);
             }
-            this.SetText(Text);
+            if (!focused) 
+            {
+                this.SetText("");
+                Text = "";
+            }
             base.Draw(spriteBatch);
         }
 
-        public static void ToggleFocus()
+        public static bool ToggleFocus()
         {
-            focused = !focused;
+            if (focused)
+            {
+                focused = false;
+                return false;
+            }
+            else
+            {
+                focused = true;
+                return true;
+            }
         }
     }
 }

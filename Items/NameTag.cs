@@ -53,10 +53,19 @@ public class NameTag : ModItem
         if (player.altFunctionUse == 2)
         {
             ModContent.GetInstance<RenameItems>().ToggleUI();
-            CustomUITextbox.ToggleFocus();
+            SetName(CustomUITextbox.ToggleFocus());
             return true;
         }
         return null;
+    }
+
+    void SetName(bool isFocused)
+    {
+        if (!isFocused)
+        {
+            Item.SetNameOverride(CustomUITextbox.Text);
+           // Tooltip.SetDefault("Use a rename station to apply this name to an item");
+        }
     }
 
    /* public override void RightClick(Player player)
